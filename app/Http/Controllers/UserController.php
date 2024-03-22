@@ -9,6 +9,11 @@ class UserController extends Controller
 {
     public function index(){
         $users = User::all();
-        return view('')
+        return view('user',['users'=>$users]);
+    }
+
+    public function showProfile($id){
+        $user = User::findOrFail($id);
+        return view('user.showUser', compact('user'));
     }
 }

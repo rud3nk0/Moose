@@ -22,3 +22,7 @@ Route::middleware([
             return view('dashboard');
         })->name('dashboard');
     });
+
+Route::get('/user/{id}', [App\Http\Controllers\UserController::class, 'showProfile'])
+    ->name('user.showProfile');
+
