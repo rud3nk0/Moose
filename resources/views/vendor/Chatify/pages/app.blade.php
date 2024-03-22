@@ -30,7 +30,7 @@
            <div class="show messenger-tab users-tab app-scroll" data-view="users">
                {{-- Favorites --}}
                <div class="favorites-section">
-                <p class="messenger-title"><span>Favorites</span></p>
+                <p class="messenger-title" style="margin-top: 30px"><span>Favorites</span></p>
                 <div class="messenger-favorites app-scroll-hidden"></div>
                </div>
                {{-- Saved Messages --}}
@@ -61,7 +61,7 @@
                     <a href="#" class="show-listView"><i class="fas fa-arrow-left"></i></a>
                     <div class="avatar av-s header-avatar" style="margin: 0px 10px; margin-top: -5px; margin-bottom: -5px;">
                     </div>
-                    <a href="#" class="user-name">{{ config('chatify.name') }}</a>
+                    <a href="{{config('chatify.profile')}}" class="user-name">{{ config('chatify.name') }}</a>
                 </div>
                 {{-- header buttons --}}
                 <nav class="m-header-right">
