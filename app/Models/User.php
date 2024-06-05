@@ -58,4 +58,12 @@ class User extends Authenticatable
     protected $appends = [
         'profile_photo_url',
     ];
+
+    use HasApiTokens, HasFactory, Notifiable;
+
+    // Связь с моделью Post
+    public function posts()
+    {
+        return $this->hasMany(Post::class);
+    }
 }

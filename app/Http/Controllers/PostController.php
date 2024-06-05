@@ -29,9 +29,19 @@ class PostController extends Controller
             'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
 
-        // dd($data); 
+        // Проверяем, есть ли авторизованный пользователь
+        $user = Auth::user();
 
-        
+        // Проверяем, что пользователь существует
+        if ($user) {
+            // Добавляем ID пользователя к данным, которые будут сохранены
+            $data['user_id'] = $user->id;
+        } else {
+            // В случае, если пользователь не авторизован, можно обработать это здесь
+            // Например, перенаправить на страницу аутентификации или выполнить другие действия
+            return redirect()->back()->withErrors(['message' => 'User is not authenticated']);
+        }
+
         if ($request->hasFile('image')) {
             $image = $request->file('image');
             $imageName = time() . '_' . $image->getClientOriginalName();
@@ -47,8 +57,6 @@ class PostController extends Controller
 
         Post::create($data);
 
-        // $posts = Post::all();
-        // return view('post.createPost', ['posts'=>$posts]);
         return redirect()->route('dashboard')->with('success', 'Post created successfully!');
     }
 
