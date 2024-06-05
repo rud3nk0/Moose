@@ -48,6 +48,7 @@ class PostController extends Controller
 
     // Перенаправляем пользователя с сообщением об успешном создании поста
     return redirect()->route('dashboard')->with('success', 'Post created successfully!');
+    //не работает сука
 }
 
 
