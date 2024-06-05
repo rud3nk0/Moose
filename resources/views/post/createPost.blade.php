@@ -1,23 +1,28 @@
-<nav x-data="{ open: false }" class="bg-white border-b border-gray-100  ">
-    <!-- Primary Navigation Menu -->
+<!-- Fonts -->
+<link rel="preconnect" href="https://fonts.bunny.net">
+<link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
+
+<!-- Scripts -->
+@vite(['resources/css/app.css', 'resources/js/app.js'])
+
+<!-- Styles -->
+@livewireStyles
+<!-- Bootstrap -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+
+<nav x-data="{ open: false }" class="bg-white border-b border-gray-100">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between h-16">
             <div class="flex">
                 <!-- Logo -->
-                <div class="shrink-0 flex items-center">
+                <div class="shrink-0 flex items-center"> 
                     <img src="https://i.pinimg.com/564x/1d/68/ed/1d68ed538fea543c84cae125c39b3f86.jpg" alt="" style="width: 170px;">
                 </div>
-
+                
                 <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                     <x-nav-link href="{{ route('dashboard') }}" :active="request()->routeIs('dashboard')">
-                        {{ __('Dashboard') }}
-                    </x-nav-link>
-                    <x-nav-link href="{{ route('chatify') }}" :active="request()->routeIs('chatify')">
-                        {{ __('chatify') }}
-                    </x-nav-link>
-                    <x-nav-link href="{{ route('postCreate') }}" :active="request()->routeIs('postCreate')">
-                        {{ __('+ Create Post') }}
+                        {{ __('Back') }}
                     </x-nav-link>
                 </div>
             </div>
@@ -139,92 +144,48 @@
             </div>
         </div>
     </div>
-
-    <!-- Responsive Navigation Menu -->
-    <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden">
-        <div class="pt-2 pb-3 space-y-1">
-            <x-responsive-nav-link href="{{ route('dashboard') }}" :active="request()->routeIs('dashboard')">
-                {{ __('Dashboard') }}
-            </x-responsive-nav-link>    
-            <x-responsive-nav-link href="{{ route('chatify') }}" :active="request()->routeIs('chatify')">
-                {{ __('Chatify') }}
-            </x-responsive-nav-link>  
-            <x-responsive-nav-link href="{{ route('postCreate') }}" :active="request()->routeIs('postCreate')">
-                {{ __('+ Create Post') }}
-            </x-responsive-nav-link>  
-            
-        </div>
-
-        <!-- Responsive Settings Options -->
-        <div class="pt-4 pb-1 border-t border-gray-200">
-            <div class="flex items-center px-4">
-                @if (Laravel\Jetstream\Jetstream::managesProfilePhotos())
-                    <div class="shrink-0 me-3">
-                        <img class="h-10 w-10 rounded-full object-cover" src="{{ Auth::user()->profile_photo_url }}" alt="{{ Auth::user()->name }}" />
-                    </div>
-                @endif
-
-                <div>
-                    <div class="font-medium text-base text-gray-800">{{ Auth::user()->name }}</div>
-                    <div class="font-medium text-sm text-gray-500">{{ Auth::user()->email }}</div>
-                </div>
-            </div>
-
-            <div class="mt-3 space-y-1">
-                <!-- Account Management -->
-                <x-responsive-nav-link href="{{ route('profile.show') }}" :active="request()->routeIs('profile.show')">
-                    {{ __('Profile') }}
-                </x-responsive-nav-link>
-
-                @if (Laravel\Jetstream\Jetstream::hasApiFeatures())
-                    <x-responsive-nav-link href="{{ route('api-tokens.index') }}" :active="request()->routeIs('api-tokens.index')">
-                        {{ __('API Tokens') }}
-                    </x-responsive-nav-link>
-                @endif
-
-                <!-- Authentication -->
-                <form method="POST" action="{{ route('logout') }}" x-data>
-                    @csrf
-
-                    <x-responsive-nav-link href="{{ route('logout') }}"
-                                   @click.prevent="$root.submit();">
-                        {{ __('Log Out') }}
-                    </x-responsive-nav-link>
-                </form>
-
-                <!-- Team Management -->
-                @if (Laravel\Jetstream\Jetstream::hasTeamFeatures())
-                    <div class="border-t border-gray-200"></div>
-
-                    <div class="block px-4 py-2 text-xs text-gray-400">
-                        {{ __('Manage Team') }}
-                    </div>
-
-                    <!-- Team Settings -->
-                    <x-responsive-nav-link href="{{ route('teams.show', Auth::user()->currentTeam->id) }}" :active="request()->routeIs('teams.show')">
-                        {{ __('Team Settings') }}
-                    </x-responsive-nav-link>
-
-                    @can('create', Laravel\Jetstream\Jetstream::newTeamModel())
-                        <x-responsive-nav-link href="{{ route('teams.create') }}" :active="request()->routeIs('teams.create')">
-                            {{ __('Create New Team') }}
-                        </x-responsive-nav-link>
-                    @endcan
-
-                    <!-- Team Switcher -->
-                    @if (Auth::user()->allTeams()->count() > 1)
-                        <div class="border-t border-gray-200"></div>
-
-                        <div class="block px-4 py-2 text-xs text-gray-400">
-                            {{ __('Switch Teams') }}
-                        </div>
-
-                        @foreach (Auth::user()->allTeams() as $team)
-                            <x-switchable-team :team="$team" component="responsive-nav-link" />
-                        @endforeach
-                    @endif
-                @endif
-            </div>
-        </div>
-    </div>
 </nav>
+
+<div class="wrapper">
+    <form class="form" action="{{ route('postCreate.store') }}" method="post" enctype="multipart/form-data">
+    @csrf
+        <div class="mb-3">
+            <label for="nickname" class="form-label">Enter Nickname</label>
+            <input type="text" name="nickname" class="form-control" id="nickname" aria-describedby="text" placeholder="Nickname">
+        </div>
+        <div class="mb-3">
+            <label for="name" class="form-label">Enter post Name</label>
+            <input type="text" name="name" class="form-control" id="name" aria-describedby="text" placeholder="Post name">
+        </div>
+        <div class="mb-3">
+            <label for="description" class="form-label">Enter Description</label>
+            <textarea name="description" class="form-control" id="description" rows="3"></textarea>
+        </div>
+        <div class="mb-3">
+            <label for="date" class="form-label">Choice date post</label>
+            <input type="date" name="date" class="form-control" id="date" aria-describedby="text" placeholder="">
+        </div>
+        <label for="image">Photo</label>
+        <div class="input-group mb-3">
+            <input type="file" name="image" id="image" class="form-control" aria-label="image">
+        </div>
+
+        <button type="submit" class="btn btn-primary">Create</button>
+    </form>
+</div>
+
+
+<style>
+    .form{
+        margin: 100px auto;
+        padding: 20px;
+        width:700px;
+        -webkit-box-shadow: 0px 0px 25px -10px rgba(66, 68, 90, 1);
+        -moz-box-shadow: 0px 0px 25px -10px rgba(66, 68, 90, 1);
+        box-shadow: 0px 0px 25px -10px rgba(66, 68, 90, 1);
+        border-radius: 8px;
+    }
+</style>
+
+<!-- Bootstrap -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
